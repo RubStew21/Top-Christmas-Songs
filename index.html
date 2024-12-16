@@ -44,13 +44,29 @@
             font-size: 2.5em;
         }
 
-        .captcha-container {
-            background-color: #fff;
-            padding: 20px;
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 30px;
             border-radius: 10px;
-            margin-bottom: 30px;
-            color: #000;
             text-align: center;
+            color: #000;
+            width: 80%;
+            max-width: 500px;
         }
 
         .santa-section {
@@ -64,6 +80,22 @@
             width: 250px;
             border-radius: 10px;
             margin-bottom: 10px;
+        }
+
+        .santa-link {
+            display: inline-block;
+            background-color: #ff0000;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .santa-link:hover {
+            background-color: #cc0000;
+            transform: scale(1.05);
         }
 
         .song-list {
@@ -84,37 +116,45 @@
             transform: scale(1.01);
         }
 
-        .christmas-decoration {
-            position: absolute;
-            font-size: 24px;
+        #captchaInput {
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
         }
 
-        a {
-            color: #ff0000;
-            text-decoration: none;
-            font-weight: bold;
+        button {
+            padding: 10px 20px;
+            background-color: #2d5a27;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        a:hover {
-            color: #ffffff;
+        button:hover {
+            background-color: #1d3a17;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="captcha-container">
+    <!-- Captcha Modal -->
+    <div id="captchaModal" class="modal">
+        <div class="modal-content">
             <h2>&lt;SYSTEM OVERRIDE&gt;</h2>
             <p>YOU ARE TO SOLVE THIS THEN CLICK ON THE LINK UNDER THE PICTURE OF SANTA FOUND ON THE RIGHT SIDE OF THE PAGE</p>
             <div id="captcha" style="margin: 20px 0;">
-                <!-- Simple captcha implementation -->
                 <input type="text" id="captchaInput" placeholder="Enter captcha: 12345">
                 <button onclick="verifyCaptcha()">Verify</button>
             </div>
         </div>
+    </div>
 
+    <div class="container">
         <div class="santa-section">
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Jonathan_G_Meath_portrays_Santa_Claus.jpg/800px-Jonathan_G_Meath_portrays_Santa_Claus.jpg" alt="Santa Claus" class="santa-image">
-            <a href="https://docs.google.com/document/d/1wGWhJejqq4aE_Wk5KsN63tTJlma5f5HreDkEEotZf3M/edit?usp=sharing">Click Here After Solving Captcha</a>
+            <a href="https://docs.google.com/document/d/1wGWhJejqq4aE_Wk5KsN63tTJlma5f5HreDkEEotZf3M/edit?usp=sharing" class="santa-link">Click Here After Solving Captcha</a>
         </div>
 
         <h1>🎄 Top 100 Christmas Songs 🎄</h1>
@@ -130,6 +170,11 @@
     </div>
 
     <script>
+        // Show modal on page load
+        window.onload = function() {
+            document.getElementById('captchaModal').style.display = 'block';
+        }
+
         // Create snowflakes
         function createSnowflakes() {
             const snowflake = document.createElement('div');
@@ -146,6 +191,7 @@
         function verifyCaptcha() {
             const input = document.getElementById('captchaInput').value;
             if(input === '12345') {
+                document.getElementById('captchaModal').style.display = 'none';
                 alert('Captcha verified successfully!');
             } else {
                 alert('Incorrect captcha! Please try again.');
